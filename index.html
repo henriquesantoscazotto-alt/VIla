@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>??? — Acesso Restrito</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Texto escondido de fundo (apodrecido) -->
+  <div class="bg-text" aria-hidden="true" id="bgText"></div>
+
+  <!-- Camadas de distorção -->
+  <div class="noise-layer" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <button class="sound-toggle" id="soundToggle" title="Alternar som">♪</button>
+
+  <div class="container">
+    <h1 class="title">Bem vindo a...</h1>
+
+    <div class="instruction">complete a frase</div>
+
+    <input 
+      type="text" 
+      id="codeInput" 
+      autocomplete="off" 
+      spellcheck="false" 
+      autofocus
+      maxlength="20"
+    >
+    <div class="message" id="message">Errado</div>
+  </div>
+
+  <div class="granted" id="granted">
+    <span>Acesso Concedido</span>
+  </div>
+
+  <!-- Tela final — data gravada -->
+  <div class="finale" id="finale">
+    <div class="finale-label">— fim da transmissão —</div>
+    <div class="finale-date">21 / 11 / 1499</div>
+    <div class="finale-sub">o que estava submerso, agora repousa</div>
+  </div>
+
+  <!-- 🎵 ÁUDIO COM A RESPOSTA (sussurro de "Tubarão") -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="sussurro.mp3" type="audio/mpeg">
+    <source src="sussurro.ogg" type="audio/ogg">
+  </audio>
+
+  <script src="audio.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
