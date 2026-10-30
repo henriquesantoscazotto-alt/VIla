@@ -11,7 +11,7 @@ const finale  = document.getElementById('finale');
 const VALID_ANSWERS = ['tubarao'];   // aceita "Tubarão", "tubarão", "TUBARAO"...
 
 // Texto de fundo (quase invisível) — fala do mar podre
-const HIDDEN_TEXT = "O que apodrece no fundo não morre, apenas espera. A água escura guarda memórias de dentes antigos. Tubarão. Tubarão. Tubarão. As ondas não chegam até aqui, apenas o silêncio espesso e o gosto de ferro na boca. Algo se move onde a luz nunca tocou, e o cheiro de podre que sobe é o aviso de que ele ainda está com fome. Não desça mais. Não leia mais. Não... ";
+const HIDDEN_TEXT = "Sou um ato desesperado de Deus, nasci de um fraco homem para parar as mãos de feiticeiros, nasci das lagrimas para apresentar dor, sou um ato desesperado de Deus. Uma criança, na labareda chamuscada, será o unico sobrevivente de chorosa tragédia";
 
 function fillBackgroundText() {
   const bgEl = document.getElementById('bgText');
