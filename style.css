@@ -1,0 +1,416 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  background: #0a0706;
+  color: #b0a89a;
+  font-family: 'Courier New', monospace;
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* ============================================
+   TEXTO ESCONDIDO (apodrecido)
+   ============================================ */
+.bg-text {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  line-height: 1.8;
+  text-align: justify;
+  color: #14110e;
+  text-shadow: 0 0 3px #1a1510;
+  padding: 30px;
+  overflow: hidden;
+  word-break: break-word;
+  user-select: none;
+  pointer-events: none;
+  animation: bgRot 14s ease-in-out infinite;
+}
+
+@keyframes bgRot {
+  0%, 100% { opacity: 0.7; }
+  50%      { opacity: 1; }
+}
+
+/* ============================================
+   CAMADAS DE DISTORÇÃO
+   ============================================ */
+.noise-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.15;
+  background-image: 
+    repeating-linear-gradient(
+      45deg,
+      rgba(80, 60, 30, 0.1) 0px,
+      transparent 2px,
+      transparent 4px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(60, 40, 20, 0.08) 0px,
+      transparent 3px,
+      transparent 6px
+    );
+  mix-blend-mode: overlay;
+  animation: noiseShift 0.3s steps(4) infinite;
+}
+
+@keyframes noiseShift {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-2px, 1px); }
+  50%  { transform: translate(1px, -2px); }
+  75%  { transform: translate(-1px, -1px); }
+  100% { transform: translate(2px, 2px); }
+}
+
+.scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.25) 0px,
+    rgba(0, 0, 0, 0.25) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  animation: scanMove 8s linear infinite;
+}
+
+@keyframes scanMove {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(3px); }
+}
+
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: 
+    radial-gradient(
+      ellipse at center,
+      transparent 20%,
+      rgba(10, 15, 8, 0.7) 70%,
+      #000 100%
+    ),
+    radial-gradient(
+      ellipse at 30% 70%,
+      rgba(80, 90, 40, 0.08) 0%,
+      transparent 50%
+    );
+  animation: vignettePulse 6s ease-in-out infinite;
+}
+
+@keyframes vignettePulse {
+  0%, 100% { opacity: 0.9; }
+  50%      { opacity: 1; }
+}
+
+/* ============================================
+   CONTEÚDO CENTRAL
+   ============================================ */
+.container {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  padding: 40px;
+  max-width: 90vw;
+}
+
+.title {
+  font-size: 1.3rem;
+  letter-spacing: 0.5em;
+  font-weight: 300;
+  color: #6e6354;
+  margin-bottom: 55px;
+  text-transform: none;
+  font-style: italic;
+  text-shadow: 
+    0 0 8px rgba(110, 99, 84, 0.3),
+    1px 1px 0 rgba(60, 30, 10, 0.5);
+  animation: titleFlicker 5s infinite;
+}
+
+@keyframes titleFlicker {
+  0%, 100%      { opacity: 1; }
+  45%, 47%      { opacity: 0.4; }
+  46%           { opacity: 0.9; }
+  70%           { opacity: 0.7; }
+  72%           { opacity: 1; }
+}
+
+.instruction {
+  font-size: 0.7rem;
+  color: #4a4033;
+  letter-spacing: 0.4em;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+}
+
+input {
+  background: rgba(20, 15, 10, 0.4);
+  border: none;
+  border-bottom: 1px solid #3a3025;
+  color: #c8b8a0;
+  font-family: 'Courier New', monospace;
+  font-size: 1.3rem;
+  padding: 12px 20px;
+  text-align: center;
+  letter-spacing: 0.4em;
+  outline: none;
+  width: 340px;
+  transition: border-color 0.4s ease, color 0.4s ease, box-shadow 0.4s;
+  caret-color: #8a7a60;
+}
+
+input:focus {
+  border-bottom-color: #6e5540;
+  box-shadow: 0 4px 20px rgba(110, 85, 60, 0.15);
+}
+
+input.error {
+  border-bottom-color: #5a1510;
+  color: #9a3020;
+  animation: shake 0.5s;
+  box-shadow: 0 4px 20px rgba(90, 21, 16, 0.4);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0) skewX(0); }
+  20%      { transform: translateX(-10px) skewX(-2deg); }
+  40%      { transform: translateX(10px) skewX(2deg); }
+  60%      { transform: translateX(-6px) skewX(-1deg); }
+  80%      { transform: translateX(6px) skewX(1deg); }
+}
+
+.message {
+  margin-top: 25px;
+  font-size: 0.75rem;
+  letter-spacing: 0.35em;
+  color: #6a1510;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.5s;
+  height: 18px;
+  text-shadow: 0 0 8px rgba(150, 30, 20, 0.6);
+}
+
+.message.show {
+  opacity: 1;
+  animation: glitch 0.3s steps(3) 2;
+}
+
+@keyframes glitch {
+  0%, 100% { transform: translate(0, 0); }
+  33%      { transform: translate(-2px, 1px); }
+  66%      { transform: translate(2px, -1px); }
+}
+
+/* ============================================
+   FLASH DE ERRO (combina com rugido)
+   ============================================ */
+body.error-flash::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, rgba(90, 15, 10, 0.4) 0%, rgba(0, 0, 0, 0.9) 100%);
+  z-index: 15;
+  pointer-events: none;
+  animation: errorFlash 0.6s ease-out;
+}
+
+@keyframes errorFlash {
+  0%   { opacity: 0; }
+  20%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ============================================
+   TELA ACESSO CONCEDIDO
+   ============================================ */
+.granted {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 2s ease;
+}
+
+.granted.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.granted span {
+  color: #a88860;
+  letter-spacing: 0.8em;
+  font-size: 1rem;
+  text-transform: uppercase;
+  padding-left: 0.8em;
+  text-shadow: 0 0 20px rgba(168, 136, 96, 0.5);
+  animation: grantedPulse 2s ease-in-out infinite;
+}
+
+@keyframes grantedPulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.6; }
+}
+
+/* ============================================
+   TELA FINAL — DATA GRAVADA
+   ============================================ */
+.finale {
+  position: fixed;
+  inset: 0;
+  background: #050302;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 25;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 2.5s ease;
+  text-align: center;
+  padding: 20px;
+}
+
+.finale.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.finale-label {
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.6em;
+  color: #3a2e20;
+  text-transform: uppercase;
+  margin-bottom: 50px;
+  padding-left: 0.6em;
+  opacity: 0;
+  animation: finaleFadeIn 3s ease 0.5s forwards;
+}
+
+.finale-date {
+  font-family: 'Courier New', monospace;
+  font-size: clamp(2rem, 8vw, 4.5rem);
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  color: #8a6e40;
+  padding-left: 0.25em;
+  text-shadow: 
+    0 0 20px rgba(138, 110, 64, 0.5),
+    0 0 40px rgba(138, 110, 64, 0.2),
+    2px 2px 0 rgba(40, 20, 10, 0.8),
+    -1px -1px 0 rgba(20, 15, 8, 0.9);
+  opacity: 0;
+  animation: 
+    dateReveal 4s ease 1.5s forwards,
+    datePulse 6s ease-in-out 5.5s infinite;
+}
+
+.finale-sub {
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+  color: #4a3a28;
+  font-style: italic;
+  margin-top: 60px;
+  padding-left: 0.4em;
+  opacity: 0;
+  animation: finaleFadeIn 3s ease 3s forwards;
+}
+
+@keyframes finaleFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 0.9; }
+}
+
+@keyframes dateReveal {
+  0% {
+    opacity: 0;
+    letter-spacing: 1.5em;
+    filter: blur(12px);
+    transform: scale(1.1);
+  }
+  60% {
+    opacity: 0.7;
+    letter-spacing: 0.3em;
+    filter: blur(2px);
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    letter-spacing: 0.25em;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+@keyframes datePulse {
+  0%, 100% { 
+    text-shadow: 
+      0 0 20px rgba(138, 110, 64, 0.5),
+      0 0 40px rgba(138, 110, 64, 0.2),
+      2px 2px 0 rgba(40, 20, 10, 0.8),
+      -1px -1px 0 rgba(20, 15, 8, 0.9);
+  }
+  50% { 
+    text-shadow: 
+      0 0 30px rgba(138, 110, 64, 0.8),
+      0 0 60px rgba(138, 110, 64, 0.3),
+      2px 2px 0 rgba(40, 20, 10, 0.8),
+      -1px -1px 0 rgba(20, 15, 8, 0.9);
+  }
+}
+
+/* ============================================
+   BOTÃO DE SOM
+   ============================================ */
+.sound-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 8;
+  background: rgba(20, 15, 10, 0.6);
+  border: 1px solid #2a2015;
+  color: #6a5a45;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s;
+  font-family: 'Courier New', monospace;
+}
+
+.sound-toggle:hover {
+  border-color: #6a5540;
+  color: #b8a080;
+  box-shadow: 0 0 15px rgba(110, 85, 60, 0.3);
+}
